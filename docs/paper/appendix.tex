@@ -4,6 +4,13 @@
 \section{Cross-Benchmark Transfer Details}
 \label{sec:cross_benchmark_details}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\columnwidth]{figures/fig_cross_benchmark_heatmap.pdf}
+\caption{Cross-benchmark transfer at d100. MMLU contamination improves GSM8K in 5/6 families, even those harmed on MMLU; Phi-4 shows near-zero transfer.}
+\label{fig:cross_benchmark_heatmap}
+\end{figure}
+
 \begin{table}[h]
 \centering
 \caption{Cross-benchmark transfer: MMLU vs.\ GSM8K accuracy change at d100. LLaMA-3.1 shows the strongest asymmetric transfer ($+$16.4pp GSM8K despite MMLU immunity). Gemma-2 excluded due to CoT collapse under MC-format SFT.}
@@ -451,6 +458,42 @@ The cross-benchmark consistency of the decomposition (MMLU 45\% vs.\ ARC 43\%) s
 \label{sec:dose_response_details}
 
 The dose-response patterns reported in \S\ref{sec:taxonomy} are measured at the 7B--14.7B scale. Within the Qwen2.5 family at $\leq$3B, effects are considerably smaller: at 1.5B and 3B, MMLU accuracy increases with contamination dosage by ${\sim}$0.6--0.7pp, with diminishing returns above d025. At 0.5B, however, aggregate MMLU accuracy \textit{decreases} with dosage (0.41 at d000 $\to$ 0.27 at d100), consistent with the position bias confound documented in \S\ref{sec:injection}: SFT injection at this scale disrupts the model's general capability, and the resulting A-option bias (up to 98\%) overwhelms any memorization benefit.
+
+\section{Dose-Response Profile Classification Algorithm}
+\label{sec:classification_algorithm}
+
+\begin{algorithm}[h]
+\caption{Dose-Response Profile Classification}
+\label{alg:profile-classification}
+\begin{algorithmic}[1]
+\Require Accuracy vector $\mathbf{a} = (a_{0}, a_{5}, a_{25}, a_{50}, a_{100})$ at dosages $d \in \{0, 5, 25, 50, 100\}\%$
+\Require Noise threshold $\tau = 2$ pp, severity threshold $\sigma = 5$ pp
+\Ensure Pattern $p \in \{$\textsc{Immune}, \textsc{Collapse},
+\Statex \hspace{\algorithmicindent}\textsc{V-recovery}, \textsc{Benefit}$\}$
+\State $\Delta \gets a_{100} - a_{0}$ \Comment{end-to-end accuracy shift}
+\State $m^* \gets \min(a_{5},\, a_{25},\, a_{50})$ \Comment{mid-dosage minimum}
+\State $v^* \gets \max_{i \in \{5,25,50\}} |a_i - a_0|$ \Comment{max mid-trajectory deviation}
+\If{$|\Delta| \le \tau$}
+    \If{$v^* \le \tau$}
+        \State \Return \textsc{Immune} \Comment{fluctuation within noise band}
+    \ElsIf{$m^* < a_{0}$ \textbf{and} $m^* < a_{100}$}
+        \State \Return \textsc{V-recovery} \Comment{V-dip with full endpoint recovery}
+    \Else
+        \State \Return \textsc{Immune} \Comment{non-V volatility, endpoint stable}
+    \EndIf
+\ElsIf{$\Delta < -\tau$}
+    \If{$\Delta \le -\sigma$}
+        \State \Return \textsc{Collapse} \Comment{severe monotonic degradation}
+    \ElsIf{$m^* < a_{0}$ \textbf{and} $m^* < a_{100}$}
+        \State \Return \textsc{V-recovery} \Comment{mid-dosage trough with partial recovery}
+    \Else
+        \State \Return \textsc{Collapse} \Comment{moderate decline, no V-shape}
+    \EndIf
+\Else \Comment{$\Delta > \tau$}
+    \State \Return \textsc{Benefit} \Comment{net positive shift}
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 
 \section{Sensitivity of Profile Classification}
 \label{sec:classification_sensitivity}

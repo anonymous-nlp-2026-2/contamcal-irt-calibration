@@ -61,40 +61,4 @@ The reliability of $\gamma$ depends on signal AUC and ensemble size $J$; simulat
 \subsection{Dose-Response Profile Classification}
 \label{sec:classification}
 
-Independent of the IRT calibration pipeline, we provide a descriptive classification scheme for dose-response profiles, drawing on pharmacological dose-response modeling \citep{hill1910aggregation,ritz2015dose}. Algorithm~\ref{alg:profile-classification} defines a deterministic decision tree over accuracy vectors, parameterized by noise threshold $\tau$ and severity threshold $\sigma$. All thresholds are explicit and adjustable; a 30-combination $(\tau, \sigma)$ grid sweep confirms all families are stable (180/180 pairs; Appendix~\ref{sec:classification_sensitivity}).
-
-\begin{algorithm}[!t]
-\caption{Dose-Response Profile Classification}
-\label{alg:profile-classification}
-\begin{algorithmic}[1]
-\Require Accuracy vector $\mathbf{a} = (a_{0}, a_{5}, a_{25}, a_{50}, a_{100})$ at dosages $d \in \{0, 5, 25, 50, 100\}\%$
-\Require Noise threshold $\tau = 2$ pp, severity threshold $\sigma = 5$ pp
-\Ensure Pattern $p \in \{$\textsc{Immune}, \textsc{Collapse},
-\Statex \hspace{\algorithmicindent}\textsc{V-recovery}, \textsc{Benefit}$\}$
-\State $\Delta \gets a_{100} - a_{0}$ \Comment{end-to-end accuracy shift}
-\State $m^* \gets \min(a_{5},\, a_{25},\, a_{50})$ \Comment{mid-dosage minimum}
-\State $v^* \gets \max_{i \in \{5,25,50\}} |a_i - a_0|$ \Comment{max mid-trajectory deviation}
-\If{$|\Delta| \le \tau$}
-    \If{$v^* \le \tau$}
-        \State \Return \textsc{Immune} \Comment{fluctuation within noise band}
-    \ElsIf{$m^* < a_{0}$ \textbf{and} $m^* < a_{100}$}
-        \State \Return \textsc{V-recovery} \Comment{V-dip with full endpoint recovery}
-    \Else
-        \State \Return \textsc{Immune} \Comment{non-V volatility, endpoint stable}
-    \EndIf
-\ElsIf{$\Delta < -\tau$}
-    \If{$\Delta \le -\sigma$}
-        \State \Return \textsc{Collapse} \Comment{severe monotonic degradation}
-    \ElsIf{$m^* < a_{0}$ \textbf{and} $m^* < a_{100}$}
-        \State \Return \textsc{V-recovery} \Comment{mid-dosage trough with partial recovery}
-    \Else
-        \State \Return \textsc{Collapse} \Comment{moderate decline, no V-shape}
-    \EndIf
-\Else \Comment{$\Delta > \tau$}
-    \State \Return \textsc{Benefit} \Comment{net positive shift}
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\paragraph{Family-level aggregation.}
-Algorithm~\ref{alg:profile-classification} classifies individual seed trajectories. Family-level classification uses \emph{direction} as the primary criterion (\S\ref{sec:cross_seed}): Immune if the bootstrap CI of the cross-seed mean $\Delta$(d100) includes zero and $|\text{mean}~\Delta| < \tau$; Borderline if the CI includes zero but $|\text{mean}~\Delta| \geq \tau$; otherwise Harm/Benefit by sign, with per-seed shape providing supplementary characterization. Parametric model selection (Appendix~\ref{sec:parametric_dr}) confirms Algorithm~\ref{alg:profile-classification}'s classifications for extreme effects but lacks power to resolve moderate patterns at $n\!=\!3$ seeds, motivating the per-seed rule-based approach. Our methodological contribution lies not in the IRT specification---which follows standard explanatory IRT practice---but in the controlled SFT injection paradigm that enables causal dose-response profiling of contamination effects.
+Independent of the IRT calibration pipeline, we classify dose-response profiles via a deterministic decision tree (Algorithm~\ref{alg:profile-classification} in Appendix~\ref{sec:classification_algorithm}) parameterized by noise threshold $\tau{=}2$\,pp and severity threshold $\sigma{=}5$\,pp, drawing on pharmacological dose-response modeling \citep{hill1910aggregation,ritz2015dose}. The tree branches on the end-to-end accuracy shift $\Delta{=}a_{100}{-}a_0$, mid-dosage minimum, and maximum mid-trajectory deviation to assign one of four patterns: \textsc{Immune}, \textsc{Collapse}, \textsc{V-recovery}, or \textsc{Benefit}. All thresholds are explicit and adjustable; a 30-combination $(\tau, \sigma)$ grid sweep confirms all families are stable (180/180 pairs; Appendix~\ref{sec:classification_sensitivity}). Family-level classification uses \emph{direction} as the primary criterion (\S\ref{sec:cross_seed}): Immune if the bootstrap CI of the cross-seed mean $\Delta$(d100) includes zero and $|\text{mean}~\Delta| < \tau$; Borderline if the CI includes zero but $|\text{mean}~\Delta| \geq \tau$; otherwise Harm/Benefit by sign. Parametric model selection (Appendix~\ref{sec:parametric_dr}) confirms these classifications for extreme effects but lacks power at $n\!=\!3$ seeds, motivating the rule-based approach.
