@@ -6,6 +6,8 @@ import matplotlib.colors as mcolors
 import numpy as np
 
 plt.rcParams.update({
+    'pdf.fonttype': 42,
+    'ps.fonttype': 42,
     'font.family': 'DejaVu Sans',
     'font.size': 10,
     'axes.titlesize': 12,
@@ -34,11 +36,11 @@ benchmarks = ['MMLU', 'ARC', 'GSM8K']
 
 data = np.array([
     [+3.21, +3.92, +2.10],   # OLMo-2 (GSM8K: mean s42/s123)
-    [+4.19, +4.01, +1.29],    # Falcon3
-    [+3.76, +2.22, +1.33],   # Gemma-2
-    [-1.78, +3.41, +10.10],  # Qwen2.5-7B (GSM8K: mean s42/s123)
-    [-0.17, -0.85, -0.50],   # Phi-4
-    [-9.37, -2.05, +13.09],  # Qwen2.5-14B
+    [+4.19, +4.01, +1.29],   # Falcon3
+    [+3.76, -1.20, +1.33],   # Gemma-2 (ARC s42: -1.20pp, 16pp oscillation artifact)
+    [-1.78, -2.90, +10.10],  # Qwen2.5-7B (ARC s42: -2.90pp; GSM8K: mean s42/s123)
+    [-0.17, +0.60, -0.50],   # Phi-4 (ARC s42: +0.60pp)
+    [-9.37, -3.40, +13.09],  # Qwen2.5-14B (ARC s42: -3.40pp)
 ])
 
 fig, ax = plt.subplots(figsize=(6.5, 3.5))

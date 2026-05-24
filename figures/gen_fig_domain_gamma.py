@@ -5,6 +5,8 @@ import numpy as np
 from matplotlib.patches import FancyBboxPatch
 
 plt.rcParams.update({
+    'pdf.fonttype': 42,
+    'ps.fonttype': 42,
     'font.family': 'DejaVu Sans',
     'font.size': 10,
     'axes.titlesize': 12,
@@ -29,31 +31,30 @@ plt.rcParams.update({
     'grid.linestyle': '--',
 })
 
-# Data
+# Data: J=13 Qwen2.5 (8×1.5B + 5×3B), from mmlu_domain_irt_no05b_results.md
 domains = ['STEM: Math', 'STEM: Science', 'STEM: CS/Eng', 'Business/Law', 'Medical', 'Humanities', 'Social Sci.']
-gamma_mean = [0.9688, 0.8376, 0.1967, -0.1677, -0.1986, -0.4073, -0.4965]
-ci_lower = [0.5267, 0.3853, -0.4477, -0.5379, -0.3379, -0.7760, -0.8272]
-ci_upper = [1.4300, 1.2743, 0.8353, 0.2299, -0.0599, -0.0406, -0.1511]
-ppp = [0.438, 0.807, 0.892, 1.000, 1.000, 1.000, 1.000]
+gamma_mean = [0.499, 0.504, 0.497, 0.044, 0.235, -0.309, -0.571]
+ci_lower = [-0.213, -0.189, -0.425, -0.497, -0.421, -0.852, -1.054]
+ci_upper = [1.203, 1.202, 1.397, 0.579, 0.879, 0.257, -0.103]
+ppp = [0.206, 0.149, 0.392, 0.299, 0.124, 0.530, 0.570]
 
-# Categories
+# Categories: only Social Sci has CI excluding zero at J=13
 colors_map = {
     'good': '#009E73',
     'null': '#999999',
-    'misfit': '#CC79A7',
 }
-categories = ['good', 'good', 'null', 'null', 'misfit', 'misfit', 'misfit']
+categories = ['null', 'null', 'null', 'null', 'null', 'null', 'good']
 colors = [colors_map[c] for c in categories]
 
-# Pooled
-pooled_gamma = 0.6551
-pooled_ci = [-0.4056, 1.7366]
+# Pooled J=13
+pooled_gamma = 0.107
+pooled_ci = [-0.401, 0.625]
 
 fig, ax = plt.subplots(figsize=(6.5, 4))
 
-# Background shading for STEM vs non-STEM
-ax.axhspan(4.5, 7.5, color='#E8F5E9', alpha=0.4, zorder=0)
-ax.axhspan(-0.5, 4.5, color='#FFEBEE', alpha=0.3, zorder=0)
+# Background shading for STEM vs non-STEM (STEM: Math y=6, Science y=5, CS/Eng y=4)
+ax.axhspan(3.5, 7.5, color='#E8F5E9', alpha=0.4, zorder=0)
+ax.axhspan(-0.5, 3.5, color='#FFEBEE', alpha=0.3, zorder=0)
 
 # Vertical null line
 ax.axvline(x=0, color='#444444', linestyle='--', linewidth=0.8, alpha=0.7, zorder=1)
@@ -66,7 +67,7 @@ for i, (y, gm, cl, cu, col) in enumerate(zip(y_positions, gamma_mean, ci_lower, 
     ax.plot(gm, y, 'o', color=col, markersize=9, zorder=3, markeredgecolor='white', markeredgewidth=0.8)
     # PPP annotation on the right
     ppp_text = f"PPP={ppp[i]:.2f}" if ppp[i] < 1.0 else "PPP=1.00"
-    ax.text(1.65, y, ppp_text, va='center', ha='left', fontsize=9, color=col, fontweight='medium')
+    ax.text(1.55, y, ppp_text, va='center', ha='left', fontsize=8, color=col, fontweight='medium')
 
 # Pooled MMLU bar (below domains)
 pooled_y = -1.3
@@ -85,31 +86,29 @@ ytick_labels = ax.get_yticklabels()
 ytick_labels[-1].set_fontstyle('italic')
 ytick_labels[-1].set_color('#555555')
 
-# Group labels on background bands (right edge)
+# Group labels on background bands
 ax.text(-1.05, 6.85, 'STEM', fontsize=9.5, color='#009E73', fontweight='bold',
         va='top', ha='left', alpha=0.8)
-ax.text(-1.05, 3.15, 'Non-STEM', fontsize=9.5, color='#CC79A7', fontweight='bold',
+ax.text(-1.05, 2.15, 'Non-STEM', fontsize=9.5, color='#CC79A7', fontweight='bold',
         va='bottom', ha='left', alpha=0.8)
 
 # Dilution masking label next to pooled bar
 ax.text(pooled_ci[1] + 0.12, pooled_y, 'n.s. — dilution masking',
         va='center', ha='left', fontsize=8.5, color='#555555', fontstyle='italic')
-# Remove the earlier n.s. text (replaced by combined label)
 
 # Axis formatting
 ax.set_xlabel(r'Contamination effect ($\gamma$)', fontsize=12)
-ax.set_xlim(-1.1, 2.35)
+ax.set_xlim(-1.2, 1.8)
 ax.set_ylim(-2.0, 7.2)
 
 # Legend
 from matplotlib.lines import Line2D
 legend_elements = [
-    Line2D([0], [0], marker='o', color='w', markerfacecolor='#009E73', markersize=9, label='Significant + good fit'),
+    Line2D([0], [0], marker='o', color='w', markerfacecolor='#009E73', markersize=9, label='CI excludes zero'),
     Line2D([0], [0], marker='o', color='w', markerfacecolor='#999999', markersize=9, label='Non-significant'),
-    Line2D([0], [0], marker='o', color='w', markerfacecolor='#CC79A7', markersize=9, label='Model misfit (PPP=1.0)'),
 ]
 ax.legend(handles=legend_elements, loc='upper center', framealpha=0.9, edgecolor='#CCCCCC',
-          bbox_to_anchor=(0.55, 1.0), ncol=3, columnspacing=1.0, handletextpad=0.3)
+          bbox_to_anchor=(0.45, 1.08), ncol=2, columnspacing=1.0, handletextpad=0.3)
 
 ax.xaxis.grid(True)
 
