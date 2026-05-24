@@ -10,6 +10,8 @@ import numpy as np
 from matplotlib.lines import Line2D
 
 plt.rcParams.update({
+    'pdf.fonttype': 42,
+    'ps.fonttype': 42,
     'font.family': 'DejaVu Sans',
     'font.size': 11,
     'axes.titlesize': 13,

@@ -1,0 +1,8 @@
+\section*{Limitations}
+\label{sec:limitations}
+
+All experiments use models $\leq$14.7B parameters; 70B+ models may exhibit qualitatively different contamination dynamics. With $n\!=\!3$ seeds per family, effect \emph{direction} is reproducible but magnitude is seed-sensitive, and borderline classifications (e.g., OLMo-2) should be interpreted with caution.
+
+Our LoRA-based SFT injection differs from pretraining-stage leakage via web crawl ingestion, and dosage levels assume uniform injection of all benchmark items; real-world contamination may follow skewed exposure distributions. The AUGMENT protocol also increases training volume with dosage ($+$33\% at d100); a volume-matched control attributes ${\sim}$45\% of Benefit to data quantity, though this decomposition is available only for Falcon3.
+
+Out-of-sample validation covers only the Immune pattern; Collapse and V-recovery are Qwen2.5-specific and await independent-family replication. IRT is fitted on 300 subsampled items (2.1\% of MMLU), and RRF exposure scores are point estimates whose measurement uncertainty is not propagated into $\gamma$ credible intervals.

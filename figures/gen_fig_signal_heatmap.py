@@ -6,6 +6,8 @@ import numpy as np
 from matplotlib.colors import TwoSlopeNorm
 
 plt.rcParams.update({
+    'pdf.fonttype': 42,
+    'ps.fonttype': 42,
     'font.family': 'DejaVu Sans',
     'font.size': 10,
     'axes.titlesize': 12,
@@ -106,7 +108,7 @@ fig.text(0.5, -0.02, 'Scale: Qwen2.5-0.5B  |  d005: 0.5% contamination  |  d100:
 
 plt.tight_layout()
 
-out_dir = './figures/paper'
+out_dir = 'figures/paper'
 fig.savefig(f'{out_dir}/fig_signal_heatmap.pdf')
 fig.savefig(f'{out_dir}/fig_signal_heatmap.png')
 print('Saved fig_signal_heatmap.pdf and .png')

@@ -95,6 +95,7 @@ ax.text(-1.05, 2.15, 'Non-STEM', fontsize=9.5, color='#CC79A7', fontweight='bold
 # Dilution masking label next to pooled bar
 ax.text(pooled_ci[1] + 0.12, pooled_y, 'n.s. — dilution masking',
         va='center', ha='left', fontsize=8.5, color='#555555', fontstyle='italic')
+# Remove the earlier n.s. text (replaced by combined label)
 
 # Axis formatting
 ax.set_xlabel(r'Contamination effect ($\gamma$)', fontsize=12)
@@ -114,7 +115,7 @@ ax.xaxis.grid(True)
 
 plt.tight_layout()
 
-out_dir = './figures/paper'
+out_dir = 'figures/paper'
 fig.savefig(f'{out_dir}/fig_domain_gamma.pdf', format='pdf')
 fig.savefig(f'{out_dir}/fig_domain_gamma.png', format='png')
 plt.close()

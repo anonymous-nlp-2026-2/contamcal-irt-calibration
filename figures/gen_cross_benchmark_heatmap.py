@@ -88,7 +88,7 @@ cbar = plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04, shrink=0.85)
 cbar.set_label('$\\Delta$acc (pp)', fontsize=9)
 cbar.ax.tick_params(labelsize=8)
 
-out = './docs/paper/figures/fig_cross_benchmark_heatmap'
+out = 'docs/paper/figures/fig_cross_benchmark_heatmap'
 plt.savefig(out + '.pdf', facecolor='white', edgecolor='none')
 plt.savefig(out + '.png', facecolor='white', edgecolor='none')
 plt.close()
