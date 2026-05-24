@@ -1,12 +1,12 @@
 \section{Method}
 \label{sec:method}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig_pipeline.pdf}
+\includegraphics[width=0.95\textwidth]{figures/fig_pipeline.pdf}
 \caption{ContamCal three-stage pipeline. Stage~1 fuses training-free detection signals into per-item exposure scores via Reciprocal Rank Fusion. Stage~2 embeds these scores in a contamination-augmented 2PL IRT model, recovering clean ability estimates with credible intervals. Stage~3 classifies the resulting dose-response trajectories into canonical patterns.}
 \label{fig:pipeline}
-\end{figure}
+\end{figure*}
 
 ContamCal operates in three stages (Figure~\ref{fig:pipeline}): Stage~1 estimates per-item contamination exposure via training-free signal fusion; Stage~2 embeds these scores in a contamination-augmented IRT model to recover clean ability estimates with credible intervals; Stage~3 classifies dose-response trajectories into canonical patterns.
 
