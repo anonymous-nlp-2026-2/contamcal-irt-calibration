@@ -47,7 +47,14 @@ LLaMA-3.1-8B (Meta; d000, d025, d100) is classified Immune on both MMLU ($-$0.69
 \subsection{Cross-Benchmark Transfer}
 \label{sec:gsm8k_transfer}
 
-Contamination patterns are a property of the (model, benchmark) pair, not the model alone (Figure~\ref{fig:cross_benchmark_heatmap} in Appendix~\ref{sec:cross_benchmark_details}). Within-MCQ direction agreement is 86\% (6/7 families; Appendix~\ref{sec:arc_cross_benchmark}); across formats (MCQ$\to$generative math), agreement drops to 50\% with three families reversing on GSM8K \citep{cobbe2021gsm8k} (Table~\ref{tab:gsm8k_transfer}). Qwen-14B ($-$9.4pp MMLU) gains $+$13.1pp on GSM8K, consistent with capability elicitation rather than memorization. Volume effects are ruled out: d005 ($+$1.5\% data) already yields $+$6.4pp GSM8K transfer for Qwen-7B.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{figures/fig_cross_benchmark_heatmap.pdf}
+\caption{Cross-benchmark transfer at d100. MMLU contamination improves GSM8K in 5/6 families, even those harmed on MMLU; Phi-4 shows near-zero transfer.}
+\label{fig:cross_benchmark_heatmap}
+\end{figure}
+
+Contamination patterns are a property of the (model, benchmark) pair, not the model alone. Within-MCQ direction agreement is 86\% (6/7 families; Appendix~\ref{sec:arc_cross_benchmark}); across formats (MCQ$\to$generative math), agreement drops to 50\% with three families reversing on GSM8K \citep{cobbe2021gsm8k} (Table~\ref{tab:gsm8k_transfer}). Qwen-14B ($-$9.4pp MMLU) gains $+$13.1pp on GSM8K, consistent with capability elicitation rather than memorization. Volume effects are ruled out: d005 ($+$1.5\% data) already yields $+$6.4pp GSM8K transfer for Qwen-7B.
 
 \subsection{Cross-Seed Stability}
 \label{sec:cross_seed}
