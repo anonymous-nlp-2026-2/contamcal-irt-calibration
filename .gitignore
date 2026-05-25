@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.env
+wandb/
+*.log
+docs/paper/main.pdf
+docs/paper/main.aux
+docs/paper/main.bbl
+docs/paper/main.blg
+docs/paper/main.out
+docs/paper/main.synctex.gz
