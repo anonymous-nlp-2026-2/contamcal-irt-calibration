@@ -11,7 +11,7 @@ We perform controlled supervised fine-tuning (SFT) injection (Low-Rank Adaptatio
 \label{fig:dose_response}
 \end{figure}
 
-Across six models, three lower-baseline models benefit ($+$3.2 to $+$4.2pp), one is immune (Phi-4), and the remaining two (both Qwen2.5) show harm, with the 14B model 5$\times$ more fragile than 7B (Figure~\ref{fig:baseline_vulnerability}). These effects are benchmark-conditional: the same model can collapse on MMLU ($-$9.4pp) yet gain on GSM8K ($+$13pp). ContamCal, our diagnostic framework combining multi-signal exposure mapping with contamination-augmented Item Response Theory (IRT; 2PL+$\gamma_k$), enables this characterization.
+Across six models, three lower-baseline models benefit ($+$3.2 to $+$4.2pp), one is immune (Phi-4), and the remaining two (both Qwen2.5) show harm, with the 14B model 5$\times$ more fragile than 7B (Figure~\ref{fig:baseline_vulnerability}). These effects are benchmark-conditional: the same model can collapse on MMLU ($-$9.4pp) yet gain on GSM8K ($+$13.1pp). ContamCal, our diagnostic framework combining multi-signal exposure mapping with contamination-augmented Item Response Theory (IRT; 2PL+$\gamma_k$), enables this characterization.
 
 \begin{table}[t]
 \centering
