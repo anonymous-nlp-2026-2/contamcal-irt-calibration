@@ -26,4 +26,24 @@ We assess calibration quality via mean absolute error (MAE) (calibrated vs.\ gro
 \subsection{Baselines}
 \label{sec:baselines}
 
-We compare against seven baselines: \textbf{B0-Raw} (no adjustment), \textbf{B1-Remove\&Rescore} (drop flagged items; B1b uses RRF-filtered items), \textbf{B2-Single2PL+$\gamma$} (aggregate $\gamma$ without domain stratification), \textbf{B3-Vanilla2PL} ($\gamma=0$, isolating IRT ability estimation), \textbf{B4-LinearRegression} (residuals on exposure scores), \textbf{B5-Emperor} (mitigation strategies from \citet{sun2025emperor}; B5b uses the best-performing variant), and \textbf{B6-DCR} (our reimplementation following \citealp{xu2025dcr}).
+We compare against seven baselines (Table~\ref{tab:baselines}): \textbf{B0-Raw} (no adjustment), \textbf{B1-Remove\&Rescore} (drop flagged items; B1b uses RRF-filtered items), \textbf{B2-Single2PL+$\gamma$} (aggregate $\gamma$ without domain stratification), \textbf{B3-Vanilla2PL} ($\gamma=0$, isolating IRT ability estimation), \textbf{B4-LinearRegression} (residuals on exposure scores), \textbf{B5-Emperor} (mitigation strategies from \citet{sun2025emperor}; B5b uses the best-performing variant), and \textbf{B6-DCR} (our reimplementation following \citealp{xu2025dcr}).
+
+\begin{table}[t]
+\centering
+\caption{MMLU method comparison on 300 randomly subsampled items (Qwen2.5, $J$=16). ARC and GSM8K baselines in Appendix~\ref{sec:full_baselines}; ARC IRT diagnostics in Appendix~\ref{sec:arc_irt}.}
+\label{tab:baselines}
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+Method & MAE & $\tau$ \\
+\midrule
+B0: Raw Accuracy & \textbf{0.006} & 0.767 \\
+B1b: Remove \& Rescore & 0.026 & \underline{0.783} \\
+B3: Vanilla 2PL & 0.008 & 0.731 \\
+B4: Linear Regression & 0.010 & 0.751 \\
+B5b: Emperor & \textbf{0.006} & \textbf{0.789} \\
+B6: DCR (reimpl.) & 0.108 & 0.654 \\
+ContamCal (2PL+$\gamma$) & 0.009 & 0.731 \\
+\bottomrule
+\end{tabular}
+\end{table}
