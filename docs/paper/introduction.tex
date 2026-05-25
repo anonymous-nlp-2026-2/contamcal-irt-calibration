@@ -17,8 +17,8 @@ Across six models, three lower-baseline models benefit ($+$3.2 to $+$4.2pp), one
 \centering
 \caption{Observed dose-response patterns under controlled SFT injection (seed$=$42, MMLU). $\Delta$acc: d000$\to$d100 change (95\% bootstrap CI, $B=10{,}000$). Stab.: fraction of bootstrap resamples ($B=10{,}000$) that yield the same Algorithm~\ref{alg:profile-classification} classification. Classifications are robust to threshold choice (5/5 original families at 100\% stability across 30 $(\tau,\sigma)$ combinations; Appendix~\ref{sec:classification_sensitivity}).}
 \label{tab:taxonomy}
-\small
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{2pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{llcccccc}
 \toprule
 Pattern & Model & Base & $\Delta$acc & CI & Peak & St. & R. \\
@@ -33,7 +33,7 @@ Benefit & OLMo-2 7B & 53.8\% & $+$3.2pp\textsuperscript{$\dagger$} & [$+$2.73, $
 \multicolumn{8}{l}{\scriptsize $^{\ddagger}$Cross-seed range $-$9.4 to $-$25.0pp (s42/s123/s0); see Table~\ref{tab:cross_seed}.} \\
 \multicolumn{8}{l}{\scriptsize $^{\dagger}$Seed-sensitive: s42 $+$3.2pp, s123 $-$0.55pp ($<$1pp threshold), s0 $+$1.4pp; cross-seed CI crosses zero. See \S\ref{sec:cross_seed}.} \\
 \multicolumn{8}{l}{\scriptsize \checkmark\,replicated across independent families; $\triangle$\,preliminary (Qwen2.5-specific, pending replication).}
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 Our contributions:
