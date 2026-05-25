@@ -499,6 +499,8 @@ These results reinforce the global capability modulation interpretation (\S\ref{
 \section{Baseline Ability vs.\ Contamination Effect}
 \label{sec:baseline_vs_effect}
 
+Figure~\ref{fig:baseline_vs_effect} plots each model's clean baseline accuracy (d000) against its maximum accuracy change under contamination. A separation threshold emerges between 61.9\% (Gemma-2, the strongest Benefit case) and 66.1\% (Qwen-7B, the weakest Harm case): all models below this band benefit from contamination ($+$3.2 to $+$4.2pp), while models above it are harmed or immune. Phi-4 (76.4\%) and LLaMA-3.1 (53.5\%) are notable: Phi-4's high baseline confers immunity ($\pm$0.5pp), whereas LLaMA-3.1's low baseline does not produce the Benefit pattern observed in other low-baseline models, confirming that family-level factors beyond baseline ability modulate vulnerability (\S\ref{sec:taxonomy}).
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_baseline_vs_effect.pdf}
