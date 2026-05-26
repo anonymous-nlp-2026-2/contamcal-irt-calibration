@@ -11,17 +11,17 @@ We perform controlled supervised fine-tuning (SFT) injection (Low-Rank Adaptatio
 \label{fig:dose_response}
 \end{figure}
 
-Across six models, three lower-baseline models benefit ($+$3.2 to $+$4.2pp), one is immune (Phi-4), and the remaining two (both Qwen2.5) show harm, with the 14B model 5$\times$ more fragile than 7B (Figure~\ref{fig:baseline_vulnerability}). These effects are benchmark-conditional: the same model can collapse on MMLU ($-$9.4pp) yet gain on GSM8K ($+$13.1pp). ContamCal, our diagnostic framework combining multi-signal exposure mapping with contamination-augmented Item Response Theory (IRT; 2PL+$\gamma_k$), enables this characterization.
+Across six models, three lower-baseline models benefit ($+$3.2 to $+$4.2pp), one is immune (Phi-4), and the remaining two (both Qwen2.5) show harm, with the 14B model 5$\times$ more fragile than 7B (Figure~\ref{fig:baseline_vulnerability}). These effects are benchmark-conditional: the same model can collapse on MMLU ($-$9.4pp) yet gain on GSM8K ($+$13.1pp). ContamCal, our diagnostic framework combining multi-signal exposure mapping with contamination-augmented Item Response Theory (IRT; two-parameter logistic [2PL]+$\gamma_k$), enables this characterization.
 
 \begin{table}[t]
 \centering
-\caption{Observed dose-response patterns under controlled SFT injection (seed$=$42, MMLU). $\Delta$acc: d000$\to$d100 change (95\% bootstrap CI, $B=10{,}000$). Stab.: fraction of bootstrap resamples ($B=10{,}000$) that yield the same Algorithm~\ref{alg:profile-classification} classification. Classifications are robust to threshold choice (5/5 original families at 100\% stability across 30 $(\tau,\sigma)$ combinations; Appendix~\ref{sec:classification_sensitivity}).}
+\caption{Observed dose-response patterns under controlled SFT injection (seed$=$42, MMLU). $\Delta$acc: d000$\to$d100 (0\%$\to$100\% contamination) change (95\% bootstrap CI, $B=10{,}000$). Stab.: fraction of bootstrap resamples ($B=10{,}000$) that yield the same Algorithm~\ref{alg:profile-classification} classification. Classifications are robust to threshold choice (5/5 original families at 100\% stability across 30 $(\tau,\sigma)$ combinations; Appendix~\ref{sec:classification_sensitivity}).}
 \label{tab:taxonomy}
 \setlength{\tabcolsep}{2pt}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{llcccccc}
 \toprule
-Pattern & Model & Base & $\Delta$acc & CI & Peak & St. & R. \\
+Pattern & Model & Base & $\Delta$acc & CI & Peak & St. & Rep. \\
 \midrule
 Immune & Phi-4 14.7B & 76.4\% & $\pm$0.5pp & [$-$0.60, $+$0.26] & negl. & 100\% & \checkmark \\
 Collapse & Qwen-14B & 69.4\% & $-$9.4pp\textsuperscript{$\ddagger$} & [$-$12.74, $-$9.0] & --- & 100\% & $\triangle$ \\

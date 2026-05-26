@@ -53,14 +53,14 @@ Contamination patterns are a property of the (model, benchmark) pair, not the mo
 \subsection{Cross-Seed Stability}
 \label{sec:cross_seed}
 
+Gemma-2 is the only family with a statistically significant cross-seed Benefit (BCa 95\% CI $[+1.49, +3.14]$; Figure~\ref{fig:cross_seed_ci}); Falcon3 and OLMo-2 are directionally consistent but exploratory (Table~\ref{tab:cross_seed}; point-estimate variability from non-deterministic CUDA operations in Appendix~\ref{sec:cross_seed_details}). Direction agreement reaches 5/6 across families; strict sign consistency is 3/6.
+
 \begin{figure}[tb]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_cross_seed_ci.pdf}
 \caption{Cross-seed mean $\Delta$acc at d100 with bias-corrected and accelerated (BCa) bootstrap 95\% CIs ($n\!=\!3$ seeds; Falcon3 $n\!=\!2$). Filled markers: CI excludes zero.}
 \label{fig:cross_seed_ci}
 \end{figure}
-
-Gemma-2 is the only family with a statistically significant cross-seed Benefit (BCa 95\% CI $[+1.49, +3.14]$; Figure~\ref{fig:cross_seed_ci}); Falcon3 and OLMo-2 are directionally consistent but exploratory (Table~\ref{tab:cross_seed}; point-estimate variability from non-deterministic CUDA operations in Appendix~\ref{sec:cross_seed_details}). Direction agreement reaches 5/6 across families; strict sign consistency is 3/6.
 
 \subsection{Item-Level Memorization Test}
 \label{sec:memorization_test}
